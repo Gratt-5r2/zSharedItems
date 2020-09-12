@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zSharedItems", "zSharedItems\zSharedItems.vcxproj", "{62D5495A-D7E3-4E91-AAD2-8C049B984257}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		G1 Debug|x86 = G1 Debug|x86
+		G1 Release|x86 = G1 Release|x86
+		G1A Debug|x86 = G1A Debug|x86
+		G1A Release|x86 = G1A Release|x86
+		G2 Debug|x86 = G2 Debug|x86
+		G2 Release|x86 = G2 Release|x86
+		G2A Debug|x86 = G2A Debug|x86
+		G2A Release|x86 = G2A Release|x86
+		MP Debug|x86 = MP Debug|x86
+		MP Release|x86 = MP Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{62D5495A-D7E3-4E91-AAD2-8C049B984257}.G1 Debug|x86.ActiveCfg = G1 Debug|Win32
+		{62D5495A-D7E3-4E91-AAD2-8C049B984257}.G1 Debug|x86.Build.0 = G1 Debug|Win32
+		{62D5495A-D7E3-4E91-AAD2-8C049B984257}.G1 Release|x86.ActiveCfg = G1 Release|Win32
+		{62D5495A-D7E3-4E91-AAD2-8C049B984257}.G1 Release|x86.Build.0 = G1 Release|Win32
+		{62D5495A-D7E3-4E91-AAD2-8C049B984257}.G1A Debug|x86.ActiveCfg = G1A Debug|Win32
+		{62D5495A-D7E3-4E91-AAD2-8C049B984257}.G1A Debug|x86.Build.0 = G1A Debug|Win32
+		{62D5495A-D7E3-4E91-AAD2-8C049B984257}.G1A Release|x86.ActiveCfg = G1A Release|Win32
+		{62D5495A-D7E3-4E91-AAD2-8C049B984257}.G1A Release|x86.Build.0 = G1A Release|Win32
+		{62D5495A-D7E3-4E91-AAD2-8C049B984257}.G2 Debug|x86.ActiveCfg = G2 Debug|Win32
+		{62D5495A-D7E3-4E91-AAD2-8C049B984257}.G2 Debug|x86.Build.0 = G2 Debug|Win32
+		{62D5495A-D7E3-4E91-AAD2-8C049B984257}.G2 Release|x86.ActiveCfg = G2 Release|Win32
+		{62D5495A-D7E3-4E91-AAD2-8C049B984257}.G2 Release|x86.Build.0 = G2 Release|Win32
+		{62D5495A-D7E3-4E91-AAD2-8C049B984257}.G2A Debug|x86.ActiveCfg = G2A Debug|Win32
+		{62D5495A-D7E3-4E91-AAD2-8C049B984257}.G2A Debug|x86.Build.0 = G2A Debug|Win32
+		{62D5495A-D7E3-4E91-AAD2-8C049B984257}.G2A Release|x86.ActiveCfg = G2A Release|Win32
+		{62D5495A-D7E3-4E91-AAD2-8C049B984257}.G2A Release|x86.Build.0 = G2A Release|Win32
+		{62D5495A-D7E3-4E91-AAD2-8C049B984257}.MP Debug|x86.ActiveCfg = MP Debug|Win32
+		{62D5495A-D7E3-4E91-AAD2-8C049B984257}.MP Debug|x86.Build.0 = MP Debug|Win32
+		{62D5495A-D7E3-4E91-AAD2-8C049B984257}.MP Release|x86.ActiveCfg = MP Release|Win32
+		{62D5495A-D7E3-4E91-AAD2-8C049B984257}.MP Release|x86.Build.0 = MP Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5AD00775-A892-473E-8275-B56EDA687C58}
+	EndGlobalSection
+EndGlobal
