@@ -2,7 +2,7 @@
 // Union SOURCE file
 
 namespace GOTHIC_ENGINE {
-  static int s_ShareID        = 0xFFFFFFFE;
+  static int     s_ShareID    = 0xFFFFFFFE;
   static oCInfo* s_SharedInfo = Null;
   static oCInfo* s_LastInfo   = Null;
   static bool    s_ShowChoice = false;
