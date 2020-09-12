@@ -32,8 +32,6 @@ namespace GOTHIC_ENGINE {
 
   HOOK Hook_oCInformationManager_Update AS( &oCInformationManager::Update, &oCInformationManager::Update_Union );
 
-  extern void OpenShareContainer( oCNpc* trader );
-
   void oCInformationManager::Update_Union() {
     if( s_Sharing )
       return;
