@@ -18,7 +18,7 @@ namespace GOTHIC_ENGINE {
         break;
       case Lang_Pol:
         Dia_IsNotYours = "To nie moje.";
-        Dia_IsNotYours = "Dzielić się rzeczami.";
+        Dia_ShareItems = "Dzielić się rzeczami.";
         break;
       default:
         Dia_IsNotYours = "That's not mine.";
