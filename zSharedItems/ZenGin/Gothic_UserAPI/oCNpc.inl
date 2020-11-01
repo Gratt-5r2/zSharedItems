@@ -8,3 +8,6 @@ void StopTalkingWith_Union();
 void SetTalkingWith_Union( oCNpc* npc, int talking );
 void UnequipItem_Union( oCItem* );
 int oCNpc::EV_ProcessInfos_Union( oCMsgConversation* csg );
+void EquipMagic( oCItem* item );
+void UnEquipItemByFlag( int flag );
+int GetEquipedFlagItemsCount( int flag );

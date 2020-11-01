@@ -33,6 +33,7 @@ namespace Gothic_I_Classic {
   const int ITM_FLAG_CROSSBOW   = 1<<20;
   const int ITM_FLAG_MULTI      = 1<<21;
   const int ITM_FLAG_RING       = 1<<11;
+  const int ITM_FLAG_BELT       = 1<<24;
   const int ITM_FLAG_AMULET     = 1<<22;
   const int ITM_FLAG_CREATEAMMO = 1<<25;
   const int ITM_FLAG_EAT        = 1<<26;

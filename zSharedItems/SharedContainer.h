@@ -22,6 +22,14 @@ namespace GOTHIC_ENGINE {
 		virtual oCItem* Remove( oCItem* item, int amount );
 		virtual oCItem* RemoveByPtr( oCItem* item, int amount );
 		virtual void Close();
+
+#if ENGINE <= Engine_G1A
+		int invnr;
+		void SetContentID( int index );
+		virtual void SetCategoryOnRightContainer();
+		virtual void DrawCategory();
+		virtual int HandleEvent( int );
+#endif
 	};
 
 	string Dia_IsNotYours;

@@ -35,6 +35,7 @@ namespace Gothic_I_Addon {
   const int ITM_FLAG_MULTI      = 1<<21;
   const int ITM_FLAG_RING       = 1<<11;
   const int ITM_FLAG_AMULET     = 1<<22;
+  const int ITM_FLAG_BELT       = 1<<24;
   const int ITM_FLAG_CREATEAMMO = 1<<25;
   const int ITM_FLAG_EAT        = 1<<26;
   const int ITM_FLAG_DRINK      = 1<<27;

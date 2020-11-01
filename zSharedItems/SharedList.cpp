@@ -148,7 +148,11 @@ namespace GOTHIC_ENGINE {
   static int GetPartyMemberIndex() {
     zCPar_Symbol* sym = parser->GetSymbol( "AIV_PARTYMEMBER" );
     if( !sym )
-      return 15; // Default
+#if ENGINE >= Engine_G2
+      return 15;
+#else
+      return 36;
+#endif
 
     int id;
     sym->GetValue( id, 0 );
@@ -164,12 +168,20 @@ namespace GOTHIC_ENGINE {
     return SharedLists.HasEqualSorted( instanceName );
   }
 
+  string GetSlotNameByID( uint ID ) {
+    if( ID > 0 )
+      return "savegame" + A ID;
 
+    if( ID == 0 )
+      return "quicksave";
+
+    return "current";
+  }
 
   string GetArchivePath() {
     int slotID = SaveLoadGameInfo.slotID;
     string savesDir = zoptions->GetDirString( zTOptionPaths::DIR_SAVEGAMES );
-    string slotDir = slotID < 0 ? "Current" : "savegame" + A SaveLoadGameInfo.slotID;
+    string slotDir = GetSlotNameByID( SaveLoadGameInfo.slotID ); // slotID < 0 ? "Current" : "savegame" + A SaveLoadGameInfo.slotID;
     string archivePath = string::Combine( "%s\\%s\\Equipments.sav", savesDir, slotDir );
     return archivePath;
   }
@@ -177,6 +189,10 @@ namespace GOTHIC_ENGINE {
 
 
   void zTShareManager::Save() {
+    int slotID = SaveLoadGameInfo.slotID;
+    if( slotID < 0 )
+      return;
+
     zCArchiver* ar = zarcFactory->CreateArchiverWrite( Z GetArchivePath(), zARC_MODE_ASCII, 0, 0 );
     if( !ar )
       return;
@@ -192,6 +208,14 @@ namespace GOTHIC_ENGINE {
 
 
   void zTShareManager::Load() {
+    int slotID = SaveLoadGameInfo.slotID;
+    if( slotID < 0 ) {
+      if( slotID == -2 )
+        SharedLists.Clear();
+
+      return;
+    }
+
     SharedLists.Clear();
 
     zCArchiver* ar = zarcFactory->CreateArchiverRead( Z GetArchivePath(), 0 );

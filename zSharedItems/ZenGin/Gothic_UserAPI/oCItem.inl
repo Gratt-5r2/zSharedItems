@@ -19,3 +19,7 @@ bool IsWeapon() {
 bool IsArmor() {
   return (mainflag & ITM_CAT_ARMOR) != 0;
 }
+
+bool IsMagic() {
+  return (mainflag & ITM_CAT_MAGIC) != 0;
+}

@@ -9,7 +9,7 @@ namespace GOTHIC_ENGINE {
   void Game_Entry() {
     switch( Union.GetSystemLanguage() ) {
       case Lang_Rus:
-        Dia_IsNotYours = "Это не моё.";
+        Dia_IsNotYours = "Это не мое.";
         Dia_ShareItems = "Поделиться вещами";
         break;
       case Lang_Ger:
@@ -18,7 +18,7 @@ namespace GOTHIC_ENGINE {
         break;
       case Lang_Pol:
         Dia_IsNotYours = "To nie moje.";
-        Dia_ShareItems = "Dzielić się rzeczami.";
+        Dia_ShareItems = "Daj przedmioty";
         break;
       default:
         Dia_IsNotYours = "That's not mine.";
@@ -35,11 +35,6 @@ namespace GOTHIC_ENGINE {
   }
 
   void Game_Loop() {
-#if 0
-    if( zKeyToggled( KEY_I ) )
-      if( player->GetFocusNpc() )
-        OpenShareContainer( player->GetFocusNpc() );
-#endif
   }
 
   // Information about current saving or loading world

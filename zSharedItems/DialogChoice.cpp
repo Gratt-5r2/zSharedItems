@@ -33,8 +33,15 @@ namespace GOTHIC_ENGINE {
   HOOK Hook_oCInformationManager_Update AS( &oCInformationManager::Update, &oCInformationManager::Update_Union );
 
   void oCInformationManager::Update_Union() {
-    if( s_Sharing )
+    static bool needUpdateChoices = false;
+    if( s_Sharing ) {
+      needUpdateChoices = true;
       return;
+    }
+    else if( needUpdateChoices ) {
+      needUpdateChoices = false;
+      CollectInfos();
+    }
 
     THISCALL( Hook_oCInformationManager_Update )();
   }

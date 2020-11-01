@@ -8,3 +8,4 @@ void UnpackItemsInCategory_Union();
 int PackSingleItem_Union( oCItem* item );
 int GetPackedItemInfo_Union( const zSTRING& name, int destroyEntry, int& amount, int& __equipped );
 oCItem* CreateFromPackString_Union( const zSTRING& name );
+int HandleEvent_Union( int );

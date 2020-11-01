@@ -17,3 +17,7 @@
 *.db
 *.opendb
 *.tlog
+/.vs/zSharedItems/v16
+/zSharedItems/G1 Release
+/zSharedItems/G2A Release
+/zSharedItems/MP Release

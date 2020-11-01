@@ -10,12 +10,16 @@ namespace GOTHIC_ENGINE {
 
   void oCSharedContainer::ItemIsNotYours() {
     ogame->GetTextView()->Printwin( Dia_IsNotYours + "\n" );
+    player->GetModel()->StartAnimation( "T_DONTKNOW" );
   }
 
 
 
   void oCSharedContainer::SetOwner( oCNpc* owner ) {
     npc = owner;
+#if ENGINE <= Engine_G1A
+    SetContentID( npc->inventory2.invnr );
+#endif
   }
 
 
@@ -61,13 +65,76 @@ namespace GOTHIC_ENGINE {
   oCItem* oCSharedContainer::Insert( oCItem* item ) {
     int amount = item->amount;
     bool armor = item->IsArmor();
+    bool magic = item->IsMagic();
     oCItem* newItem = oCItemContainer::Insert( item );
+
     ShareManager.Insert( npc, newItem, amount );
 
     if( armor )
       npc->EquipBestArmor();
 
+    if( magic )
+      npc->EquipMagic( newItem );
+    
     return newItem;
+  }
+
+
+
+  inline int ExtractHeaderFlag( int flag ) {
+    if( flag & ITM_FLAG_RING )   return ITM_FLAG_RING;
+    if( flag & ITM_FLAG_AMULET ) return ITM_FLAG_AMULET;
+    if( flag & ITM_FLAG_BELT )   return ITM_FLAG_BELT;
+    return 0;
+  }
+
+
+
+  int oCNpc::GetEquipedFlagItemsCount( int flag ) {
+    int count = 0;
+#if ENGINE >= Engine_G2
+    auto list = inventory2.inventory.next;
+#else
+    auto list = inventory2.inventory[inventory2.invnr].next;
+#endif
+    while( list ) {
+      oCItem* item = list->data;
+      if( item->flags & flag && item->IsEquiped() )
+        count++;
+
+      list = list->next;
+    }
+
+    return count;
+  }
+
+
+
+  void oCNpc::UnEquipItemByFlag( int flag ) {
+    int equipedMax = flag == ITM_FLAG_RING ? 2 : 1;
+    int equipCount = GetEquipedFlagItemsCount( flag );
+    if( equipCount < equipedMax )
+      return;
+
+#if ENGINE >= Engine_G2
+    auto list = inventory2.inventory.next;
+#else
+    auto list = inventory2.inventory[inventory2.invnr].next;
+#endif
+    while( list ) {
+      oCItem* item = list->data;
+      if( item->flags & flag && item->IsEquiped() )
+        UnequipItem( item );
+
+      list = list->next;
+    }
+  }
+
+
+
+  void oCNpc::EquipMagic( oCItem* item ) {
+    UnEquipItemByFlag( ExtractHeaderFlag( item->flags ) );
+    Equip( item );
   }
 
 
@@ -134,6 +201,7 @@ namespace GOTHIC_ENGINE {
   void OpenShareContainer( oCNpc* trader ) {
     static oCSharedContainer* container = new oCSharedContainer();
     container->SetOwner( trader );
+
 #if ENGINE >= Engine_G2
     container->SetName( trader->GetName( 0 ) );
     container->Open( 0, 0, INV_MODE_CONTAINER );
@@ -141,6 +209,81 @@ namespace GOTHIC_ENGINE {
 #else
     container->Open( 0, 0, oCItemContainer::oTItemListMode::FULLSCREEN );
     player->OpenInventory();
+    container->SetContentID( player->inventory2.invnr );
 #endif
   }
+
+
+
+#if ENGINE <= Engine_G1A
+  void oCSharedContainer::SetContentID( int index ) {
+    if( invnr == index )
+      return;
+
+    invnr = index != -1 ? index : 1;
+    SetContents( &npc->inventory2.inventory[invnr] );
+    npc->inventory2.SwitchToCategory( invnr );
+  }
+
+
+
+  void oCSharedContainer::SetCategoryOnRightContainer() {
+    auto next = dynamic_cast<oCNpcInventory*>(GetNextContainerRight( this ));
+    if( next ) {
+      next->SwitchToCategory( invnr );
+      npc->inventory2.invnr = invnr;
+    }
+  }
+
+
+
+  void oCSharedContainer::DrawCategory() {
+    if( !IsActive() ) {
+      auto next = dynamic_cast<oCNpcInventory*>( GetNextContainerRight( this ) );
+      if( next )
+        SetContentID( next->invnr );
+    }
+
+    oCItemContainer::DrawCategory();
+  }
+
+
+
+  int oCSharedContainer::HandleEvent( int key ) {
+    if( zinput->IsBinded( GAME_LEFT, key ) || zinput->IsBinded( GAME_STRAFELEFT, key ) ) {
+      if( invnr > 1 ) {
+        SetContentID( invnr - 1 );
+        return True;
+      }
+    }
+
+    else if( zinput->IsBinded( GAME_RIGHT, key ) || zinput->IsBinded( GAME_STRAFERIGHT, key ) ) {
+      if( invnr < INV_MAX - 1 ) {
+        SetContentID( invnr + 1 );
+        return True;
+      }
+    }
+
+    else if( key == MOUSE_BUTTONRIGHT || zinput->IsBinded( GAME_END, key ) || zinput->IsBinded( GAME_INVENTORY, key ) ) {
+      this->Close();
+    }
+
+    return oCItemContainer::HandleEvent( key );
+  }
+
+
+
+
+  FASTHOOK( oCNpcInventory, HandleEvent );
+  int oCNpcInventory::HandleEvent_Union( int key ) {
+    if( zinput->IsBinded( GAME_SMOVE, key ) ) {
+      if( dynamic_cast<oCSharedContainer*>(GetNextContainerLeft( this )) ) {
+        TransferItem( -1, zKeyPressed( KEY_LSHIFT ) ? 100 : 10 );
+        return True;
+      }
+    }
+
+    return THISCALL( Hook_oCNpcInventory_HandleEvent )( key );
+  }
+#endif
 }
