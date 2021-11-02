@@ -7,6 +7,24 @@ namespace GOTHIC_ENGINE {
   static int s_Sharing            = False;
 
 
+  static int Inventory_GetCategory( int mainFlag ) {
+    switch( mainFlag ) {
+      case ITM_CAT_NF:     return (INV_COMBAT);
+      case ITM_CAT_FF:     return (INV_COMBAT);
+      case ITM_CAT_MUN:    return (INV_COMBAT);
+      case ITM_CAT_ARMOR:  return (INV_ARMOR);
+      case ITM_CAT_FOOD:   return (INV_FOOD);
+      case ITM_CAT_DOCS:   return (INV_DOCS);
+      case ITM_CAT_POTION: return (INV_POTION);
+      case ITM_CAT_RUNE:   return (INV_RUNE);
+      case ITM_CAT_MAGIC:  return (INV_MAGIC);
+      case ITM_CAT_NONE:   return (INV_OTHER);
+    }
+
+    return(INV_OTHER);
+  }
+
+
 
   void oCSharedContainer::ItemIsNotYours() {
     ogame->GetTextView()->Printwin( Dia_IsNotYours + "\n" );
@@ -33,7 +51,7 @@ namespace GOTHIC_ENGINE {
   }
 
 
-
+  
   void oCSharedContainer::UpdateEquipedItems() {
     if( npc ) {
       npc->EquipBestArmor();
@@ -84,7 +102,9 @@ namespace GOTHIC_ENGINE {
   inline int ExtractHeaderFlag( int flag ) {
     if( flag & ITM_FLAG_RING )   return ITM_FLAG_RING;
     if( flag & ITM_FLAG_AMULET ) return ITM_FLAG_AMULET;
+#if ENGINE == Engine_G2A
     if( flag & ITM_FLAG_BELT )   return ITM_FLAG_BELT;
+#endif
     return 0;
   }
 
@@ -123,11 +143,34 @@ namespace GOTHIC_ENGINE {
 #endif
     while( list ) {
       oCItem* item = list->data;
-      if( item->flags & flag && item->IsEquiped() )
+      if( item->HasFlag( flag ) && item->IsEquiped() )
         UnequipItem( item );
 
       list = list->next;
     }
+  }
+
+
+
+  void oCNpc::UnEquipItemByMainFlag( int cat ) {
+#if ENGINE >= Engine_G2
+    auto list = inventory2.inventory.next;
+    while( list ) {
+      oCItem* item = list->data;
+      if( item->mainflag == cat && item->IsEquiped() )
+        UnequipItem( item );
+
+      list = list->next;
+    }
+#else
+    int category = Inventory_GetCategory( cat );
+    auto list = inventory2.inventory[category].next;
+    while( list ) {
+      oCItem* item = list->data;
+      UnequipItem( item );
+      list = list->next;
+    }
+#endif
   }
 
 

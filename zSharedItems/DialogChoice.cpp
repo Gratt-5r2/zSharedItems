@@ -43,6 +43,34 @@ namespace GOTHIC_ENGINE {
       CollectInfos();
     }
 
+
+
+
+    static uint coolDown = 0;
+    uint now = clock();
+    if( now - coolDown > 1500 ) {
+      int index = DlgChoice->ChoiceSelected;
+      int scroll = DlgChoice->LineStart;
+      int offset = DlgChoice->OffsetTextPixel.Y;
+
+      if( Info )
+        CollectChoices( Info );
+      else
+        CollectInfos();
+
+      if( index > DlgChoice->Choices )
+        index = DlgChoice->Choices - 1;
+
+      DlgChoice->OffsetTextPixel.Y = offset;
+      DlgChoice->LineStart = scroll;
+      DlgChoice->Select( index );
+      coolDown = now;
+      // cmd << "Chioces updated" << endl;
+    }
+
+
+
+
     THISCALL( Hook_oCInformationManager_Update )();
   }
 

@@ -10,19 +10,19 @@ namespace GOTHIC_ENGINE {
     switch( Union.GetSystemLanguage() ) {
       case Lang_Rus:
         Dia_IsNotYours = "Это не мое.";
-        Dia_ShareItems = "Поделиться вещами";
+        Dia_ShareItems = "[Поделиться вещами]";
         break;
       case Lang_Ger:
         Dia_IsNotYours = "Das ist nicht meins.";
-        Dia_ShareItems = "Dinge teilen";
+        Dia_ShareItems = "[Dinge teilen]";
         break;
       case Lang_Pol:
         Dia_IsNotYours = "To nie moje.";
-        Dia_ShareItems = "Daj przedmioty";
+        Dia_ShareItems = "[Daj przedmioty]";
         break;
       default:
         Dia_IsNotYours = "That's not mine.";
-        Dia_ShareItems = "Share items";
+        Dia_ShareItems = "[Share items]";
         break;
     }
   }
@@ -98,9 +98,17 @@ namespace GOTHIC_ENGINE {
     oCInformationManager::GetInformationManager().OnExit();
     return True;
   }
+
+  int Hlp_RegisterInstanceSynonym() {
+    zSTRING synList;
+    parser->GetParameter( synList );
+    InstanceSynonyms.Insert( synList.Upper() );
+    return True;
+  }
   
   void Game_DefineExternals() {
-    parser->DefineExternal( "Npc_OpenSharedInventory", Npc_OpenSharedInventory, zPAR_TYPE_VOID, zPAR_TYPE_VOID );
+    parser->DefineExternal( "Npc_OpenSharedInventory",     Npc_OpenSharedInventory,     zPAR_TYPE_VOID, zPAR_TYPE_VOID );
+    parser->DefineExternal( "Hlp_RegisterInstanceSynonym", Hlp_RegisterInstanceSynonym, zPAR_TYPE_VOID, zPAR_TYPE_STRING, zPAR_TYPE_VOID );
   }
 
   /*
